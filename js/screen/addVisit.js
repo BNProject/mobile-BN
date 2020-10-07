@@ -73,6 +73,7 @@ class AddVisit extends Component {
       city: '',
       address: '',
       fixtureTypeId: '',
+      storeOpen: '',
 
       hasChangeNameStore: '',
       hasChangeDc: '',
@@ -86,15 +87,10 @@ class AddVisit extends Component {
       entryFixComp: '',
       entryCorrectFix: '',
       entryGoogle50KSpacing: '',
-      limitOptionEntryGoogle50KSpacing: 0,
       entryGoogle100KSpacing: '',
-      limitOptionEntryGoogle100KSpacing: 0,
       entryGoogle150KSpacing: '',
-      limitOptionEntryGoogle150KSpacing: 0,
       entryGoogle300KSpacing: '',
-      limitOptionEntryGoogle300KSpacing: 0,
       entryGoogle500KSpacing: '',
-      limitOptionEntryGoogle500KSpacing: 0,
       entryPegComp: '',
       entryBrokenHanger: '',
       entryPogComp: '',
@@ -163,6 +159,7 @@ class AddVisit extends Component {
       hasSelectedStore: false,
       number: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
       number2: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+      optionNumber: [],
     };
   }
 
@@ -332,18 +329,91 @@ class AddVisit extends Component {
         this.fetchGoogleSpacing('exit', this.state.exitCorrectFix);
       }
     }
+
+    if (this.state.storeOpen !== prevState.storeOpen) {
+      this.setState({
+        entryFixComp: 'Tidak',
+        entryCorrectFix:
+          this.state.idRetailer === 1 ? 7 : this.state.idRetailer === 2 ? 8 : 9,
+        entryPegComp: 'Iya',
+        entryBrokenHanger: 14,
+        entryPogComp: 'Tidak',
+        entryCorrectPog: 'Tidak ada sarana',
+        entryPop1: 'Tidak',
+        entryPop2: this.state.idRetailer === 1 ? 'Tidak' : '',
+        entryGoogle50k: 'Tidak',
+        entryLotGoogle50k: 0,
+        entryGoogle100k: 'Tidak',
+        entryLotGoogle100k: 0,
+        entryGoogle150k: 'Tidak',
+        entryLotGoogle150k: 0,
+        entryGoogle300k: 'Tidak',
+        entryLotGoogle300k: 0,
+        entryGoogle500k: 'Tidak',
+        entryLotGoogle500k: 0,
+        entrySpotify1m: 'Tidak',
+        entryLotSpotify1m: 0,
+        entrySpotify3m: 'Tidak',
+        entryLotSpotify3m: 0,
+        exitFixComp: 'Tidak',
+        exitCorrectFix:
+          this.state.idRetailer === 1 ? 7 : this.state.idRetailer === 2 ? 8 : 9,
+        exitPegComp: 'Iya',
+        exitBrokenHanger: 14,
+        exitPogComp: 'Tidak',
+        exitCorrectPog: 'Tidak ada sarana',
+        exitPop1: 'Tidak',
+        exitPop2: this.state.idRetailer === 1 ? 'Tidak' : '',
+        exitGoogle50k: 'Tidak',
+        exitLotGoogle50k: 0,
+        exitGoogle100k: 'Tidak',
+        exitLotGoogle100k: 0,
+        exitGoogle150k: 'Tidak',
+        exitLotGoogle150k: 0,
+        exitGoogle300k: 'Tidak',
+        exitLotGoogle300k: 0,
+        exitGoogle500k: 'Tidak',
+        exitLotGoogle500k: 0,
+        exitSpotify1m: 'Tidak',
+        exitLotSpotify1m: 0,
+        exitSpotify3m: 'Tidak',
+        exitLotSpotify3m: 0,
+        entryGoogle50KSpacing: 0,
+        entryGoogle100KSpacing: 0,
+        entryGoogle150KSpacing: 0,
+        entryGoogle300KSpacing: 0,
+        entryGoogle500KSpacing: 0,
+        exitGoogle50KSpacing: 0,
+        exitGoogle100KSpacing: 0,
+        exitGoogle150KSpacing: 0,
+        exitGoogle300KSpacing: 0,
+        exitGoogle500KSpacing: 0,
+        giftCard: 'Tidak',
+        aktifPOR: 'Tidak',
+        changeCardGift: 'Tidak',
+      });
+    }
   }
 
   fetchGoogleSpacing = async (status, fixtureId) => {
     let selected = this.state.dataFixtureType.find(el => el.id === fixtureId);
 
     if (status === 'entry') {
+      this.setState({optionNumber: []});
+      let optionNumber = [],
+        total =
+          selected.google_50k +
+          selected.google_100k +
+          selected.google_150k +
+          selected.google_300k +
+          selected.google_500k;
+
+      for (let i = 0; i <= total; i++) {
+        optionNumber.push(i);
+      }
+
       this.setState({
-        limitOptionEntryGoogle50KSpacing: selected.google_50k,
-        limitOptionEntryGoogle100KSpacing: selected.google_100k,
-        limitOptionEntryGoogle150KSpacing: selected.google_150k,
-        limitOptionEntryGoogle300KSpacing: selected.google_300k,
-        limitOptionEntryGoogle500KSpacing: selected.google_500k,
+        optionNumber,
       });
     } else {
       this.setState({
@@ -476,6 +546,7 @@ class AddVisit extends Component {
 
       var formData = new FormData();
 
+      formData.append('store_open', this.state.storeOpen);
       formData.append('visit_date', `${new Date()}`);
       formData.append('user_id', this.props.user_id);
       formData.append('store_code', this.state.idStore);
@@ -735,6 +806,7 @@ class AddVisit extends Component {
     });
 
     let newArray = [
+      ['store_open', this.state.storeOpen],
       ['visit_date', `${new Date()}`],
       ['user_id', this.props.user_id],
       ['store_code', this.state.idStore],
@@ -970,20 +1042,16 @@ class AddVisit extends Component {
       dc: '',
       city: '',
       address: '',
+      storeOpen: true,
 
       idStore: '',
       entryFixComp: '',
       entryCorrectFix: '',
       entryGoogle50KSpacing: '',
-      limitOptionEntryGoogle50KSpacing: 0,
       entryGoogle100KSpacing: '',
-      limitOptionEntryGoogle100KSpacing: 0,
       entryGoogle150KSpacing: '',
-      limitOptionEntryGoogle150KSpacing: 0,
       entryGoogle300KSpacing: '',
-      limitOptionEntryGoogle300KSpacing: 0,
       entryGoogle500KSpacing: '',
-      limitOptionEntryGoogle500KSpacing: 0,
       entryPegComp: '',
       entryBrokenHanger: '',
       entryPogComp: '',
@@ -1055,6 +1123,9 @@ class AddVisit extends Component {
     onDropdownClose();
   };
 
+  nextDah = e => {
+    console.log(e);
+  };
   render() {
     return (
       <>
@@ -1158,8 +1229,11 @@ class AddVisit extends Component {
                   nextBtnTextStyle={buttonTextStyle}
                   previousBtnStyle={{display: 'none'}}
                   nextBtnDisabled={
-                    !this.state.nameStore || !this.state.img_store
-                  }>
+                    !this.state.nameStore ||
+                    !this.state.img_store ||
+                    this.state.storeOpen === ''
+                  }
+                  onNext={e => this.nextDah(e)}>
                   <Form style={{padding: 20, paddingTop: 0}}>
                     <View id="idRetailer" style={{marginBottom: 15}}>
                       <Label>Retailer</Label>
@@ -1304,7 +1378,7 @@ class AddVisit extends Component {
                       />
                     </View>
 
-                    <View id="foto">
+                    <View id="foto" style={{marginBottom: 15}}>
                       <Label>Image Store</Label>
                       {this.state.img_store ? (
                         <Image
@@ -1335,6 +1409,24 @@ class AddVisit extends Component {
                         <Text style={{color: 'white'}}>Take Photo</Text>
                       </Button>
                     </View>
+
+                    <View id="storeOpen" style={{marginBottom: 15}}>
+                      <Label>Apakah Toko Buka</Label>
+                      <Item picker>
+                        <Picker
+                          mode="dropdown"
+                          iosIcon={<Icon name="arrow-down" />}
+                          style={{backgroundColor: '#F0F0F0'}}
+                          selectedValue={this.state.storeOpen}
+                          onValueChange={text =>
+                            this.onValueChangeNew('storeOpen', text)
+                          }>
+                          <Picker.Item label="Pilih opsi anda" value="" />
+                          <Picker.Item label="Buka" value={1} />
+                          <Picker.Item label="Tutup" value={0} />
+                        </Picker>
+                      </Item>
+                    </View>
                   </Form>
                 </ProgressStep>
 
@@ -1344,7 +1436,8 @@ class AddVisit extends Component {
                   nextBtnTextStyle={buttonTextStyle}
                   previousBtnTextStyle={buttonTextStyle}
                   nextBtnDisabled={
-                    !this.state.img_fixture_in ||
+                    (!this.state.img_fixture_in &&
+                      this.state.storeOpen === 'Buka') ||
                     !this.state.entryFixComp ||
                     (this.state.entryFixComp === 'Tidak' &&
                       !this.state.entryCorrectFix) ||
@@ -1384,11 +1477,11 @@ class AddVisit extends Component {
                     !this.state.giftCard ||
                     !this.state.aktifPOR ||
                     !this.state.changeCardGift ||
-                    !this.state.entryGoogle50KSpacing ||
-                    !this.state.entryGoogle100KSpacing ||
-                    !this.state.entryGoogle150KSpacing ||
-                    !this.state.entryGoogle300KSpacing ||
-                    !this.state.entryGoogle500KSpacing
+                    this.state.entryGoogle50KSpacing === '' ||
+                    this.state.entryGoogle100KSpacing === '' ||
+                    this.state.entryGoogle150KSpacing === '' ||
+                    this.state.entryGoogle300KSpacing === '' ||
+                    this.state.entryGoogle500KSpacing === ''
                   }>
                   <Form style={{padding: 20, paddingTop: 0}}>
                     <View id="fotoEntFix" style={{marginBottom: 15}}>
@@ -1509,17 +1602,13 @@ class AddVisit extends Component {
                               )
                             }>
                             <Picker.Item label="Pilih opsi anda" value="" />
-                            {this.state.number.map(
-                              el =>
-                                this.state.limitOptionEntryGoogle50KSpacing >=
-                                  el && (
-                                  <Picker.Item
-                                    label={`${el}`}
-                                    value={el}
-                                    key={`egs50${el}`}
-                                  />
-                                ),
-                            )}
+                            {this.state.optionNumber.map(el => (
+                              <Picker.Item
+                                label={`${el}`}
+                                value={el}
+                                key={`egs50${el}`}
+                              />
+                            ))}
                           </Picker>
                         </Item>
                       </View>
@@ -1542,17 +1631,13 @@ class AddVisit extends Component {
                               )
                             }>
                             <Picker.Item label="Pilih opsi anda" value="" />
-                            {this.state.number.map(
-                              el =>
-                                this.state.limitOptionEntryGoogle100KSpacing >=
-                                  el && (
-                                  <Picker.Item
-                                    label={`${el}`}
-                                    value={el}
-                                    key={`egs100${el}`}
-                                  />
-                                ),
-                            )}
+                            {this.state.optionNumber.map(el => (
+                              <Picker.Item
+                                label={`${el}`}
+                                value={el}
+                                key={`egs100${el}`}
+                              />
+                            ))}
                           </Picker>
                         </Item>
                       </View>
@@ -1575,17 +1660,13 @@ class AddVisit extends Component {
                               )
                             }>
                             <Picker.Item label="Pilih opsi anda" value="" />
-                            {this.state.number.map(
-                              el =>
-                                this.state.limitOptionEntryGoogle150KSpacing >=
-                                  el && (
-                                  <Picker.Item
-                                    label={`${el}`}
-                                    value={el}
-                                    key={`egs150${el}`}
-                                  />
-                                ),
-                            )}
+                            {this.state.optionNumber.map(el => (
+                              <Picker.Item
+                                label={`${el}`}
+                                value={el}
+                                key={`egs150${el}`}
+                              />
+                            ))}
                           </Picker>
                         </Item>
                       </View>
@@ -1608,17 +1689,13 @@ class AddVisit extends Component {
                               )
                             }>
                             <Picker.Item label="Pilih opsi anda" value="" />
-                            {this.state.number.map(
-                              el =>
-                                this.state.limitOptionEntryGoogle300KSpacing >=
-                                  el && (
-                                  <Picker.Item
-                                    label={`${el}`}
-                                    value={el}
-                                    key={`egs300${el}`}
-                                  />
-                                ),
-                            )}
+                            {this.state.optionNumber.map(el => (
+                              <Picker.Item
+                                label={`${el}`}
+                                value={el}
+                                key={`egs300${el}`}
+                              />
+                            ))}
                           </Picker>
                         </Item>
                       </View>
@@ -1641,17 +1718,13 @@ class AddVisit extends Component {
                               )
                             }>
                             <Picker.Item label="Pilih opsi anda" value="" />
-                            {this.state.number.map(
-                              el =>
-                                this.state.limitOptionEntryGoogle500KSpacing >=
-                                  el && (
-                                  <Picker.Item
-                                    label={`${el}`}
-                                    value={el}
-                                    key={`egs500${el}`}
-                                  />
-                                ),
-                            )}
+                            {this.state.optionNumber.map(el => (
+                              <Picker.Item
+                                label={`${el}`}
+                                value={el}
+                                key={`egs500${el}`}
+                              />
+                            ))}
                           </Picker>
                         </Item>
                       </View>
@@ -1764,6 +1837,10 @@ class AddVisit extends Component {
                             <Picker.Item
                               label="Stock voucher kosong"
                               value="Stock voucher kosong"
+                            />
+                            <Picker.Item
+                              label="Tidak ada sarana"
+                              value="Tidak ada sarana"
                             />
                           </Picker>
                         </Item>
@@ -2357,7 +2434,8 @@ class AddVisit extends Component {
                   nextBtnTextStyle={buttonTextStyle}
                   previousBtnTextStyle={buttonTextStyle}
                   nextBtnDisabled={
-                    !this.state.img_fixture_out ||
+                    (!this.state.img_fixture_out &&
+                      this.state.storeOpen === 'Buka') ||
                     !this.state.exitFixComp ||
                     (this.state.exitFixComp === 'Tidak' &&
                       !this.state.exitCorrectFix) ||
@@ -2394,11 +2472,11 @@ class AddVisit extends Component {
                       this.state.exitLotSpotify3m === '') ||
                     !this.state.exitPop1 ||
                     (this.state.idRetailer === 1 && !this.state.exitPop2) ||
-                    !this.state.exitGoogle50KSpacing ||
-                    !this.state.exitGoogle100KSpacing ||
-                    !this.state.exitGoogle150KSpacing ||
-                    !this.state.exitGoogle300KSpacing ||
-                    !this.state.exitGoogle500KSpacing
+                    this.state.exitGoogle50KSpacing === '' ||
+                    this.state.exitGoogle100KSpacing === '' ||
+                    this.state.exitGoogle150KSpacing === '' ||
+                    this.state.exitGoogle300KSpacing === '' ||
+                    this.state.exitGoogle500KSpacing === ''
                   }>
                   <Form style={{padding: 20, paddingTop: 0}}>
                     <View id="fotoExFix" style={{marginBottom: 15}}>
@@ -2769,6 +2847,10 @@ class AddVisit extends Component {
                             <Picker.Item
                               label="Stock voucher kosong"
                               value="Stock voucher kosong"
+                            />
+                            <Picker.Item
+                              label="Tidak ada sarana"
+                              value="Tidak ada sarana"
                             />
                           </Picker>
                         </Item>
@@ -3316,6 +3398,24 @@ class AddVisit extends Component {
                             />
                           )}
                         </View>
+                      </View>
+
+                      <View id="storeOpen" style={{marginBottom: 15}}>
+                        <Label>Apakah Toko Buka</Label>
+                        <Item picker>
+                          <Picker
+                            mode="dropdown"
+                            iosIcon={<Icon name="arrow-down" />}
+                            style={{backgroundColor: '#F0F0F0'}}
+                            selectedValue={this.state.storeOpen}
+                            onValueChange={text =>
+                              this.onValueChangeNew('storeOpen', text)
+                            }
+                            disabled>
+                            <Picker.Item label="Buka" value={1} />
+                            <Picker.Item label="Tutup" value={0} />
+                          </Picker>
+                        </Item>
                       </View>
                     </>
 
