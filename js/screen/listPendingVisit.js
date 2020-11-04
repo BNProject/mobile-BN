@@ -1,5 +1,4 @@
 /* eslint-disable react-native/no-inline-styles */
-/* eslint-disable no-unused-vars */
 /* eslint-disable handle-callback-err */
 /* eslint-disable react/no-did-mount-set-state */
 import React, {Component} from 'react';

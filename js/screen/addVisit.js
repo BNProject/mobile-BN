@@ -160,6 +160,8 @@ class AddVisit extends Component {
       number: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
       number2: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
       optionNumber: [],
+
+      submit: false,
     };
   }
 
@@ -330,7 +332,10 @@ class AddVisit extends Component {
       }
     }
 
-    if (this.state.storeOpen !== prevState.storeOpen) {
+    if (
+      this.state.storeOpen !== prevState.storeOpen &&
+      this.state.storeOpen === 0
+    ) {
       this.setState({
         entryFixComp: 'Tidak',
         entryCorrectFix:
@@ -392,6 +397,10 @@ class AddVisit extends Component {
         aktifPOR: 'Tidak',
         changeCardGift: 'Tidak',
       });
+    }
+
+    if (this.state.submit !== prevState.submit && this.state.submit) {
+      this.submit();
     }
   }
 
@@ -3322,7 +3331,7 @@ class AddVisit extends Component {
                 {/* 5 */}
                 <ProgressStep
                   label=""
-                  onSubmit={this.submit}
+                  onSubmit={() => this.setState({submit: true})}
                   nextBtnTextStyle={buttonTextStyle}
                   previousBtnTextStyle={buttonTextStyle}>
                   <Form style={{padding: 20, paddingTop: 0}}>
